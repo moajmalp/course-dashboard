@@ -10,65 +10,90 @@
 </head>
 <body>
     <div class="container mt-4">
-        <h1 class="text-center">📊 CODO Course Dashboard - Advanced</h1>
-        <button id="darkModeToggle" class="btn btn-secondary">🌙 Dark Mode</button>
+        <header>
+            <h1>📊 CODO Course Dashboard</h1>
+            <p>Track course revenue, expenses, and profitability in real-time.</p>
+        </header>
 
         <div class="row mt-4">
             <!-- Input Section -->
             <div class="col-md-4">
-                <h4>📌 Course Details</h4>
-                <div class="form-group">
-                    <label>Total Students:</label>
-                    <input type="number" id="students" class="form-control" value="50">
+                <div class="card">
+                    <h2>📌 Course Details</h2>
+                    <div class="form-group">
+                        <label>Total Students:</label>
+                        <input type="number" id="students" class="form-control" value="50">
+                    </div>
+                    <div class="form-group">
+                        <label>Regular Fee per Student (₹):</label>
+                        <input type="number" id="regularFee" class="form-control" value="4000">
+                    </div>
+                    <div class="form-group">
+                        <label>Discounted Fee per Student (₹):</label>
+                        <input type="number" id="discountedFee" class="form-control" value="2000">
+                    </div>
+                    <div class="form-group">
+                        <label>Number of Discounted Students:</label>
+                        <input type="number" id="discountedStudents" class="form-control" value="25">
+                    </div>
+                    <div class="form-group">
+                        <label>Fixed Costs (₹):</label>
+                        <input type="number" id="fixedCosts" class="form-control" value="50000">
+                    </div>
+                    <div class="form-group">
+                        <label>Instructor Salary (₹):</label>
+                        <input type="number" id="instructorSalary" class="form-control" value="30000">
+                    </div>
+                    <div class="form-group">
+                        <label>Variable Cost per Student (₹):</label>
+                        <input type="number" id="variableCost" class="form-control" value="500">
+                    </div>
+                    <div class="form-group">
+                        <label>Marketing Spend (₹):</label>
+                        <input type="number" id="marketingSpend" class="form-control" value="20000">
+                    </div>
+                    <button class="btn btn-success w-100 mt-3" onclick="calculateMetrics()">Calculate 📊</button>
                 </div>
-                <div class="form-group">
-                    <label>Regular Fee per Student (₹):</label>
-                    <input type="number" id="regularFee" class="form-control" value="4000">
-                </div>
-                <div class="form-group">
-                    <label>Discounted Fee per Student (₹):</label>
-                    <input type="number" id="discountedFee" class="form-control" value="2000">
-                </div>
-                <div class="form-group">
-                    <label>Number of Discounted Students:</label>
-                    <input type="number" id="discountedStudents" class="form-control" value="25">
-                </div>
-                <div class="form-group">
-                    <label>Fixed Costs (₹):</label>
-                    <input type="number" id="fixedCosts" class="form-control" value="50000">
-                </div>
-                <div class="form-group">
-                    <label>Instructor Salary (₹):</label>
-                    <input type="number" id="instructorSalary" class="form-control" value="30000">
-                </div>
-                <div class="form-group">
-                    <label>Variable Cost per Student (₹):</label>
-                    <input type="number" id="variableCost" class="form-control" value="500">
-                </div>
-                <div class="form-group">
-                    <label>Marketing Spend (₹):</label>
-                    <input type="number" id="marketingSpend" class="form-control" value="20000">
-                </div>
-                <button class="btn btn-success w-100 mt-3" onclick="calculateMetrics()">Calculate 📊</button>
             </div>
 
             <!-- Results Section -->
             <div class="col-md-8">
-                <h4>📈 Financial Summary</h4>
-                <div class="results">
-                    <p><strong>Total Revenue:</strong> ₹<span id="totalRevenue">0</span></p>
-                    <p><strong>Total Costs:</strong> ₹<span id="totalCost">0</span></p>
-                    <p><strong>Net Profit:</strong> ₹<span id="netProfit">0</span></p>
-                    <p><strong>Break-even Students:</strong> <span id="breakEven">0</span></p>
-                    <p><strong>Profit Per Instructor:</strong> ₹<span id="profitPerInstructor">0</span></p>
-                    <p><strong>Monthly Profit (2 Batches):</strong> ₹<span id="monthlyProfit">0</span></p>
+                <div class="card">
+                    <h2>📈 Financial Summary</h2>
+                    <div class="results-grid">
+                        <div class="metric-card">
+                            <p>Total Revenue</p>
+                            <span class="score excellent">₹<span id="totalRevenue">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Total Costs</p>
+                            <span class="score average">₹<span id="totalCost">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Net Profit</p>
+                            <span class="score excellent">₹<span id="netProfit">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Break-even Students</p>
+                            <span class="score average"><span id="breakEven">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Profit Per Instructor</p>
+                            <span class="score excellent">₹<span id="profitPerInstructor">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Monthly Profit (2 Batches)</p>
+                            <span class="score excellent">₹<span id="monthlyProfit">0</span></span>
+                        </div>
+                    </div>
+                    <canvas id="profitChart"></canvas>
                 </div>
-
-                <!-- Chart Section -->
-                <canvas id="profitChart"></canvas>
-                <canvas id="expenseChart"></canvas>
             </div>
         </div>
+
+        <footer>
+            <p>© 2024 CODO AI Innovations. All Rights Reserved.</p>
+        </footer>
     </div>
 
     <script src="script.js"></script>
