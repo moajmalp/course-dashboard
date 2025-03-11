@@ -1,5 +1,4 @@
 function calculateMetrics() {
-    // Input values
     let students = parseInt(document.getElementById('students').value);
     let regularFee = parseFloat(document.getElementById('regularFee').value);
     let discountedFee = parseFloat(document.getElementById('discountedFee').value);
@@ -8,27 +7,18 @@ function calculateMetrics() {
     let variableCost = parseFloat(document.getElementById('variableCost').value);
     let marketingSpend = parseFloat(document.getElementById('marketingSpend').value);
 
-    // Revenue calculation
     let regularStudents = students - discountedStudents;
     let totalRevenue = (regularStudents * regularFee) + (discountedStudents * discountedFee);
-
-    // Cost calculation
     let totalVariableCost = students * variableCost;
     let totalCost = fixedCosts + totalVariableCost + marketingSpend;
-
-    // Profit calculation
     let netProfit = totalRevenue - totalCost;
-
-    // Break-even calculation
     let contributionMarginPerStudent = regularFee - variableCost;
     let breakEvenStudents = Math.ceil(fixedCosts / contributionMarginPerStudent);
-
-    // Ratios
+    
     let roi = ((netProfit / totalCost) * 100).toFixed(2);
     let expenseRatio = ((totalCost / totalRevenue) * 100).toFixed(2);
     let profitRatio = ((netProfit / totalRevenue) * 100).toFixed(2);
 
-    // Update HTML elements
     document.getElementById("totalRevenue").innerText = totalRevenue;
     document.getElementById("totalCost").innerText = totalCost;
     document.getElementById("netProfit").innerText = netProfit;
@@ -37,14 +27,12 @@ function calculateMetrics() {
     document.getElementById("expenseRatio").innerText = expenseRatio;
     document.getElementById("profitRatio").innerText = profitRatio;
 
-    // Update Chart.js Graph
     updateChart(totalRevenue, totalCost, netProfit);
 }
 
-// Chart.js function
 function updateChart(revenue, cost, profit) {
     let ctx = document.getElementById('profitChart').getContext('2d');
-    if (window.myChart) window.myChart.destroy(); // Destroy previous chart to avoid duplicates
+    if (window.myChart) window.myChart.destroy();
 
     window.myChart = new Chart(ctx, {
         type: 'bar',
@@ -58,9 +46,12 @@ function updateChart(revenue, cost, profit) {
         },
         options: {
             responsive: true,
-            scales: {
-                y: { beginAtZero: true }
-            }
+            scales: { y: { beginAtZero: true } }
         }
     });
 }
+
+// Dark Mode Toggle
+document.getElementById('darkModeToggle').addEventListener('click', function () {
+    document.body.classList.toggle('dark-mode');
+});
