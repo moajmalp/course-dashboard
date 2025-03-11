@@ -57,20 +57,32 @@ function calculateMetrics() {
     let averageFeePerStudent = (regularFee * regularStudents + discountedFee * discountedStudents) / actualStudents;
     let breakEvenStudents = averageFeePerStudent > variableCost ? Math.ceil(totalFixedCosts / (averageFeePerStudent - variableCost)) : "N/A";
 
-    let growthRate = 1.10;
+    // ✅ Future Predictions (Corrected)
+    let growthRate = 1.10; // 10% growth per year
     let next6MonthsProfit = (monthlyProfit * ((Math.pow(growthRate, 6) - 1) / (growthRate - 1))).toFixed(2);
     let nextYearProfit = (monthlyProfit * ((Math.pow(growthRate, 12) - 1) / (growthRate - 1))).toFixed(2);
     let next5YearsProfit = (monthlyProfit * ((Math.pow(growthRate, 60) - 1) / (growthRate - 1))).toFixed(2);
-    let projectedTotalRevenue = (totalRevenue * Math.pow(growthRate, 60)).toFixed(2);
+
+    // ✅ Projected Revenue Growth (Fixed)
+    let projectedTotalRevenue = (totalRevenue * Math.pow(growthRate, 5)).toFixed(2);
 
     let breakEvenMonths = monthlyProfit > 0 ? Math.ceil(totalFixedCosts / monthlyProfit) : "N/A";
 
-    let roi = totalCost > 0 ? ((netProfit / totalCost) * 100).toFixed(2) : "0";
-    let costPerLead = students > 0 ? (marketingSpend / (students * conversionRate)).toFixed(2) : "0";
+    // ✅ Fixed Key Analytics Calculations
+    let roi = totalFixedCosts > 0 ? ((netProfit / totalFixedCosts) * 100).toFixed(2) : "0";
+    let costPerLead = conversionRate > 0 ? (marketingSpend / (students * conversionRate)).toFixed(2) : "0";
     let costPerAcquisition = actualStudents > 0 ? ((totalFixedCosts + totalVariableCost) / actualStudents).toFixed(2) : "0";
-    let retentionRate = actualStudents > 0 ? ((actualStudents / students) * 100).toFixed(2) : "0";
+    let retentionRate = students > 0 ? ((actualStudents / students) * 100).toFixed(2) : "0";
     let instructorEfficiency = instructorSalary > 0 ? ((netProfit / instructorSalary) * 100).toFixed(2) : "0";
 
+    // ✅ Prevent NaN or Infinity values
+    roi = isFinite(roi) ? roi : "0";
+    costPerLead = isFinite(costPerLead) ? costPerLead : "0";
+    costPerAcquisition = isFinite(costPerAcquisition) ? costPerAcquisition : "0";
+    retentionRate = isFinite(retentionRate) ? retentionRate : "0";
+    instructorEfficiency = isFinite(instructorEfficiency) ? instructorEfficiency : "0";
+
+    // ✅ Update UI with calculated values
     document.getElementById("totalRevenue").innerText = totalRevenue.toLocaleString();
     document.getElementById("totalCost").innerText = totalCost.toLocaleString();
     document.getElementById("netProfit").innerText = netProfit.toLocaleString();
@@ -82,6 +94,7 @@ function calculateMetrics() {
     document.getElementById("breakEvenMonths").innerText = breakEvenMonths;
     document.getElementById("projectedTotalRevenue").innerText = projectedTotalRevenue;
 
+    // ✅ Update Fixed Key Analytics
     document.getElementById("roi").innerText = roi + "%";
     document.getElementById("costPerLead").innerText = "₹" + costPerLead;
     document.getElementById("costPerAcquisition").innerText = "₹" + costPerAcquisition;
