@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Profit Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Course Profit & Metrics Dashboard</h1>
+        
+        <div class="inputs">
+            <label>Total Students:</label>
+            <input type="number" id="students" value="50">
+            
+            <label>Regular Fee per Student (₹):</label>
+            <input type="number" id="regularFee" value="4000">
+            
+            <label>Discounted Fee per Student (₹):</label>
+            <input type="number" id="discountedFee" value="2000">
+            
+            <label>Number of Discounted Students:</label>
+            <input type="number" id="discountedStudents" value="25">
+            
+            <label>Fixed Costs (₹):</label>
+            <input type="number" id="fixedCosts" value="50000">
+            
+            <label>Variable Cost per Student (₹):</label>
+            <input type="number" id="variableCost" value="500">
+            
+            <label>Marketing Spend (₹):</label>
+            <input type="number" id="marketingSpend" value="20000">
+
+            <button onclick="calculateMetrics()">Calculate</button>
+        </div>
+
+        <div class="results">
+            <h2>Results</h2>
+            <p><strong>Total Revenue:</strong> ₹<span id="totalRevenue">0</span></p>
+            <p><strong>Total Costs:</strong> ₹<span id="totalCost">0</span></p>
+            <p><strong>Net Profit:</strong> ₹<span id="netProfit">0</span></p>
+            <p><strong>Break-even Students:</strong> <span id="breakEven">0</span></p>
+            <p><strong>ROI:</strong> <span id="roi">0</span>%</p>
+            <p><strong>Expense Ratio:</strong> <span id="expenseRatio">0</span>%</p>
+            <p><strong>Profit Ratio:</strong> <span id="profitRatio">0</span>%</p>
+        </div>
+
+        <canvas id="profitChart"></canvas>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
