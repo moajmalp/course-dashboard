@@ -24,11 +24,11 @@ function calculateMetrics() {
         return;
     }
 
-    // Calculate paying students after dropout
-    let actualStudents = students - (students * dropoutRate);
+    // Calculate actual paying students after dropout
+    let actualStudents = Math.max(1, students - (students * dropoutRate)); // Ensure at least 1 student
 
     // Calculate revenue from regular and discounted students
-    let regularStudents = actualStudents - discountedStudents;
+    let regularStudents = Math.max(1, actualStudents - discountedStudents);
     let totalRevenue = (regularStudents * regularFee) + (discountedStudents * discountedFee);
 
     // Calculate total variable costs including course materials
@@ -51,9 +51,6 @@ function calculateMetrics() {
     // Monthly Profit Calculation
     let monthlyProfit = netProfit * batchesPerMonth;
 
-    // Annual Revenue Estimate
-    let annualRevenue = totalRevenue * coursesPerYear;
-
     // Future Predictions (10% Growth Rate)
     let growthRate = 1.10;  
     let next6MonthsProfit = (monthlyProfit * ((Math.pow(growthRate, 6) - 1) / (growthRate - 1))).toFixed(2);
@@ -64,21 +61,21 @@ function calculateMetrics() {
     // Break-even Time Calculation (in months)
     let breakEvenMonths = monthlyProfit > 0 ? Math.ceil(totalFixedCosts / monthlyProfit) : "N/A";
 
-    // Key Analytics Calculations
-    let roi = totalFixedCosts > 0 ? ((netProfit / totalFixedCosts) * 100).toFixed(2) : "0";  
+    // **Fixed Key Analytics Calculations**
+    let roi = totalCost > 0 ? ((netProfit / totalCost) * 100).toFixed(2) : "0";  
     let costPerLead = students > 0 ? (marketingSpend / (students * conversionRate)).toFixed(2) : "0";  
-    let costPerAcquisition = actualStudents > 0 ? (totalCost / actualStudents).toFixed(2) : "0";  
-    let retentionRate = actualStudents > 0 ? ((actualStudents / students) * 100).toFixed(2) : "0";  
+    let costPerAcquisition = actualStudents > 0 ? ((totalFixedCosts + totalVariableCost) / actualStudents).toFixed(2) : "0";  
+    let retentionRate = actualStudents > 0 ? (((actualStudents) / students) * 100).toFixed(2) : "0";  
     let instructorEfficiency = instructorSalary > 0 ? ((netProfit / instructorSalary) * 100).toFixed(2) : "0";  
 
-    // Prevent NaN or Infinity values
+    // **Prevent NaN or Infinity values**
     roi = isFinite(roi) ? roi : "0";
     costPerLead = isFinite(costPerLead) ? costPerLead : "0";
     costPerAcquisition = isFinite(costPerAcquisition) ? costPerAcquisition : "0";
     retentionRate = isFinite(retentionRate) ? retentionRate : "0";
     instructorEfficiency = isFinite(instructorEfficiency) ? instructorEfficiency : "0";
 
-    // Update UI with calculated values
+    // **Update UI with calculated values**
     document.getElementById("totalRevenue").innerText = totalRevenue.toLocaleString();
     document.getElementById("totalCost").innerText = totalCost.toLocaleString();
     document.getElementById("netProfit").innerText = netProfit.toLocaleString();
@@ -89,12 +86,11 @@ function calculateMetrics() {
     document.getElementById("next5YearsProfit").innerText = next5YearsProfit;
     document.getElementById("breakEvenMonths").innerText = breakEvenMonths;
     document.getElementById("projectedTotalRevenue").innerText = projectedTotalRevenue;
-    document.getElementById("annualRevenue").innerText = annualRevenue.toLocaleString();
 
-    // Update Key Analytics
+    // **Update Key Analytics**
     document.getElementById("roi").innerText = roi + "%";
     document.getElementById("costPerLead").innerText = "₹" + costPerLead;
     document.getElementById("costPerAcquisition").innerText = "₹" + costPerAcquisition;
     document.getElementById("retentionRate").innerText = retentionRate + "%";
     document.getElementById("instructorEfficiency").innerText = instructorEfficiency + "%";
-}
+                                               }
