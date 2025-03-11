@@ -4,37 +4,37 @@ function calculateMetrics() {
     let discountedFee = parseFloat(document.getElementById('discountedFee').value);
     let discountedStudents = parseInt(document.getElementById('discountedStudents').value);
     let fixedCosts = parseFloat(document.getElementById('fixedCosts').value);
+    let instructorSalary = parseFloat(document.getElementById('instructorSalary').value);
     let variableCost = parseFloat(document.getElementById('variableCost').value);
     let marketingSpend = parseFloat(document.getElementById('marketingSpend').value);
 
     let regularStudents = students - discountedStudents;
     let totalRevenue = (regularStudents * regularFee) + (discountedStudents * discountedFee);
     let totalVariableCost = students * variableCost;
-    let totalCost = fixedCosts + totalVariableCost + marketingSpend;
+    let totalCost = fixedCosts + instructorSalary + totalVariableCost + marketingSpend;
     let netProfit = totalRevenue - totalCost;
-    let contributionMarginPerStudent = regularFee - variableCost;
-    let breakEvenStudents = Math.ceil(fixedCosts / contributionMarginPerStudent);
-    
-    let roi = ((netProfit / totalCost) * 100).toFixed(2);
-    let expenseRatio = ((totalCost / totalRevenue) * 100).toFixed(2);
-    let profitRatio = ((netProfit / totalRevenue) * 100).toFixed(2);
+    let breakEvenStudents = Math.ceil(fixedCosts / (regularFee - variableCost));
+    let profitPerInstructor = netProfit / 1;
+    let monthlyProfit = netProfit * 2;
 
     document.getElementById("totalRevenue").innerText = totalRevenue;
     document.getElementById("totalCost").innerText = totalCost;
     document.getElementById("netProfit").innerText = netProfit;
     document.getElementById("breakEven").innerText = breakEvenStudents;
-    document.getElementById("roi").innerText = roi;
-    document.getElementById("expenseRatio").innerText = expenseRatio;
-    document.getElementById("profitRatio").innerText = profitRatio;
+    document.getElementById("profitPerInstructor").innerText = profitPerInstructor;
+    document.getElementById("monthlyProfit").innerText = monthlyProfit;
 
-    updateChart(totalRevenue, totalCost, netProfit);
+    updateCharts(totalRevenue, totalCost, netProfit, instructorSalary, marketingSpend);
 }
 
-function updateChart(revenue, cost, profit) {
-    let ctx = document.getElementById('profitChart').getContext('2d');
-    if (window.myChart) window.myChart.destroy();
+function updateCharts(revenue, cost, profit, instructorSalary, marketingSpend) {
+    let ctx1 = document.getElementById('profitChart').getContext('2d');
+    let ctx2 = document.getElementById('expenseChart').getContext('2d');
 
-    window.myChart = new Chart(ctx, {
+    if (window.myChart1) window.myChart1.destroy();
+    if (window.myChart2) window.myChart2.destroy();
+
+    window.myChart1 = new Chart(ctx1, {
         type: 'bar',
         data: {
             labels: ['Revenue', 'Costs', 'Profit'],
@@ -43,15 +43,22 @@ function updateChart(revenue, cost, profit) {
                 data: [revenue, cost, profit],
                 backgroundColor: ['blue', 'red', 'green']
             }]
-        },
-        options: {
-            responsive: true,
-            scales: { y: { beginAtZero: true } }
+        }
+    });
+
+    window.myChart2 = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: ['Instructor Salary', 'Marketing Spend'],
+            datasets: [{
+                data: [instructorSalary, marketingSpend],
+                backgroundColor: ['purple', 'orange']
+            }]
         }
     });
 }
 
-// Dark Mode Toggle
-document.getElementById('darkModeToggle').addEventListener('click', function () {
+// Dark Mode
+document.getElementById('darkModeToggle').addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
 });
