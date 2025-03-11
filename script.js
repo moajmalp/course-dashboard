@@ -10,22 +10,36 @@ function calculateMetrics() {
     let marketingSpend = parseFloat(document.getElementById('marketingSpend').value);
     let batchesPerMonth = parseInt(document.getElementById('batchesPerMonth').value);
 
-    // Calculate total revenue
+    // Ensure valid numbers
+    if (isNaN(students) || isNaN(regularFee) || isNaN(discountedFee) || isNaN(discountedStudents) || 
+        isNaN(fixedCosts) || isNaN(instructorSalary) || isNaN(variableCost) || isNaN(marketingSpend) || 
+        isNaN(batchesPerMonth) || students <= 0 || batchesPerMonth <= 0) {
+        alert("Please enter valid numbers for all fields.");
+        return;
+    }
+
+    // Calculate revenue from regular and discounted students
     let regularStudents = students - discountedStudents;
     let totalRevenue = (regularStudents * regularFee) + (discountedStudents * discountedFee);
 
-    // Calculate total costs
+    // Calculate total variable costs
     let totalVariableCost = students * variableCost;
-    let totalCost = fixedCosts + instructorSalary + totalVariableCost + marketingSpend;
+
+    // Calculate total fixed costs (including instructor salary and marketing spend)
+    let totalFixedCosts = fixedCosts + instructorSalary + marketingSpend;
+
+    // Calculate total cost
+    let totalCost = totalFixedCosts + totalVariableCost;
 
     // Calculate net profit
     let netProfit = totalRevenue - totalCost;
 
-    // Calculate break-even students
-    let breakEvenStudents = Math.ceil(fixedCosts / (regularFee - variableCost));
+    // Corrected Break-even Calculation
+    let averageFeePerStudent = (regularFee * regularStudents + discountedFee * discountedStudents) / students;
+    let breakEvenStudents = Math.ceil(totalFixedCosts / (averageFeePerStudent - variableCost));
 
-    // Profit per instructor
-    let profitPerInstructor = netProfit / 1; // Assuming 1 instructor
+    // Corrected Monthly Profit Calculation
+    let monthlyProfit = netProfit * batchesPerMonth;
 
     // Batch Count Calculations
     let batchPerDay = batchesPerMonth / 30;
@@ -34,15 +48,15 @@ function calculateMetrics() {
 
     // Future Predictions (AI-Based Growth Model)
     let projectedGrowthRate = 1.10; // Assuming 10% growth per batch
-    let nextMonthProfit = netProfit * projectedGrowthRate;
-    let nextYearProfit = netProfit * Math.pow(projectedGrowthRate, 12);
+    let nextMonthProfit = monthlyProfit * projectedGrowthRate;
+    let nextYearProfit = monthlyProfit * Math.pow(projectedGrowthRate, 12);
 
     // Update UI with calculated values
     document.getElementById("totalRevenue").innerText = totalRevenue.toLocaleString();
     document.getElementById("totalCost").innerText = totalCost.toLocaleString();
     document.getElementById("netProfit").innerText = netProfit.toLocaleString();
     document.getElementById("breakEven").innerText = breakEvenStudents;
-    document.getElementById("profitPerInstructor").innerText = profitPerInstructor.toLocaleString();
+    document.getElementById("monthlyProfit").innerText = monthlyProfit.toLocaleString();
     document.getElementById("batchPerDay").innerText = batchPerDay.toFixed(2);
     document.getElementById("batchPerWeek").innerText = batchPerWeek.toFixed(2);
     document.getElementById("batchPerMonth").innerText = batchesPerMonth;
