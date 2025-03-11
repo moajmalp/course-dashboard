@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CODO Course Dashboard</title>
+    <title>CODO Course Dashboard - Advanced</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container mt-4">
-        <h1 class="text-center">📊 CODO Course Dashboard</h1>
+        <h1 class="text-center">📊 CODO Course Dashboard - Advanced</h1>
         <button id="darkModeToggle" class="btn btn-secondary">🌙 Dark Mode</button>
 
         <div class="row mt-4">
             <!-- Input Section -->
             <div class="col-md-4">
-                <h4>📌 Enter Course Details</h4>
+                <h4>📌 Course Details</h4>
                 <div class="form-group">
                     <label>Total Students:</label>
                     <input type="number" id="students" class="form-control" value="50">
@@ -35,7 +35,11 @@
                 </div>
                 <div class="form-group">
                     <label>Fixed Costs (₹):</label>
-                    <input type="number" id="fixedCosts" class="form-control" value="30000">
+                    <input type="number" id="fixedCosts" class="form-control" value="50000">
+                </div>
+                <div class="form-group">
+                    <label>Instructor Salary (₹):</label>
+                    <input type="number" id="instructorSalary" class="form-control" value="30000">
                 </div>
                 <div class="form-group">
                     <label>Variable Cost per Student (₹):</label>
@@ -56,13 +60,13 @@
                     <p><strong>Total Costs:</strong> ₹<span id="totalCost">0</span></p>
                     <p><strong>Net Profit:</strong> ₹<span id="netProfit">0</span></p>
                     <p><strong>Break-even Students:</strong> <span id="breakEven">0</span></p>
-                    <p><strong>ROI:</strong> <span id="roi">0</span>%</p>
-                    <p><strong>Expense Ratio:</strong> <span id="expenseRatio">0</span>%</p>
-                    <p><strong>Profit Ratio:</strong> <span id="profitRatio">0</span>%</p>
+                    <p><strong>Profit Per Instructor:</strong> ₹<span id="profitPerInstructor">0</span></p>
+                    <p><strong>Monthly Profit (2 Batches):</strong> ₹<span id="monthlyProfit">0</span></p>
                 </div>
 
                 <!-- Chart Section -->
                 <canvas id="profitChart"></canvas>
+                <canvas id="expenseChart"></canvas>
             </div>
         </div>
     </div>
