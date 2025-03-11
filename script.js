@@ -1,4 +1,5 @@
 function calculateMetrics() {
+    // Get user input values
     let students = parseInt(document.getElementById('students').value);
     let regularFee = parseFloat(document.getElementById('regularFee').value);
     let discountedFee = parseFloat(document.getElementById('discountedFee').value);
@@ -8,57 +9,61 @@ function calculateMetrics() {
     let variableCost = parseFloat(document.getElementById('variableCost').value);
     let marketingSpend = parseFloat(document.getElementById('marketingSpend').value);
 
+    // Calculate total revenue
     let regularStudents = students - discountedStudents;
     let totalRevenue = (regularStudents * regularFee) + (discountedStudents * discountedFee);
+
+    // Calculate total costs
     let totalVariableCost = students * variableCost;
     let totalCost = fixedCosts + instructorSalary + totalVariableCost + marketingSpend;
+
+    // Calculate net profit
     let netProfit = totalRevenue - totalCost;
+
+    // Calculate break-even students
     let breakEvenStudents = Math.ceil(fixedCosts / (regularFee - variableCost));
-    let profitPerInstructor = netProfit / 1;
+
+    // Calculate profit per instructor
+    let profitPerInstructor = netProfit / 1; // Assuming 1 instructor for now
+
+    // Calculate estimated monthly profit (2 batches per month)
     let monthlyProfit = netProfit * 2;
 
-    document.getElementById("totalRevenue").innerText = totalRevenue;
-    document.getElementById("totalCost").innerText = totalCost;
-    document.getElementById("netProfit").innerText = netProfit;
+    // Update UI with calculated values
+    document.getElementById("totalRevenue").innerText = totalRevenue.toLocaleString();
+    document.getElementById("totalCost").innerText = totalCost.toLocaleString();
+    document.getElementById("netProfit").innerText = netProfit.toLocaleString();
     document.getElementById("breakEven").innerText = breakEvenStudents;
-    document.getElementById("profitPerInstructor").innerText = profitPerInstructor;
-    document.getElementById("monthlyProfit").innerText = monthlyProfit;
+    document.getElementById("profitPerInstructor").innerText = profitPerInstructor.toLocaleString();
+    document.getElementById("monthlyProfit").innerText = monthlyProfit.toLocaleString();
 
-    updateCharts(totalRevenue, totalCost, netProfit, instructorSalary, marketingSpend);
+    // Update charts
+    updateCharts(totalRevenue, totalCost, netProfit);
 }
 
-function updateCharts(revenue, cost, profit, instructorSalary, marketingSpend) {
-    let ctx1 = document.getElementById('profitChart').getContext('2d');
-    let ctx2 = document.getElementById('expenseChart').getContext('2d');
+// Function to update financial charts dynamically
+function updateCharts(revenue, cost, profit) {
+    let ctx = document.getElementById('profitChart').getContext('2d');
 
-    if (window.myChart1) window.myChart1.destroy();
-    if (window.myChart2) window.myChart2.destroy();
+    // Destroy existing chart before creating a new one
+    if (window.myChart) window.myChart.destroy();
 
-    window.myChart1 = new Chart(ctx1, {
+    window.myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Revenue', 'Costs', 'Profit'],
+            labels: ['Total Revenue', 'Total Costs', 'Net Profit'],
             datasets: [{
-                label: 'Amount (₹)',
+                label: 'Financial Metrics (₹)',
                 data: [revenue, cost, profit],
                 backgroundColor: ['blue', 'red', 'green']
             }]
-        }
-    });
-
-    window.myChart2 = new Chart(ctx2, {
-        type: 'pie',
-        data: {
-            labels: ['Instructor Salary', 'Marketing Spend'],
-            datasets: [{
-                data: [instructorSalary, marketingSpend],
-                backgroundColor: ['purple', 'orange']
-            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true }
+            }
         }
     });
 }
-
-// Dark Mode
-document.getElementById('darkModeToggle').addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-});
