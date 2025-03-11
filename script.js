@@ -52,36 +52,6 @@ function calculateMetrics() {
 
     // Update analytics
     updateAnalytics(netProfit, totalRevenue, breakEvenStudents, batchPerYear);
-
-    // Update charts
-    updateCharts(totalRevenue, totalCost, netProfit, nextMonthProfit, nextYearProfit);
-}
-
-// Function to update financial charts dynamically
-function updateCharts(revenue, cost, profit, nextMonth, nextYear) {
-    let ctx = document.getElementById('profitChart').getContext('2d');
-
-    // Destroy existing chart before creating a new one
-    if (window.myChart) window.myChart.destroy();
-
-    window.myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Total Revenue', 'Total Costs', 'Net Profit', 'Predicted Next Month Profit', 'Predicted Next Year Profit'],
-            datasets: [{
-                label: 'Financial Metrics (₹)',
-                data: [revenue, cost, profit, nextMonth, nextYear],
-                backgroundColor: ['blue', 'red', 'green', 'purple', 'orange']
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
 }
 
 // Function to update key business analytics
