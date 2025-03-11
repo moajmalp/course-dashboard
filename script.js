@@ -36,7 +36,9 @@ function calculateMetrics() {
 
     // Corrected Break-even Calculation
     let averageFeePerStudent = (regularFee * regularStudents + discountedFee * discountedStudents) / students;
-    let breakEvenStudents = Math.ceil(totalFixedCosts / (averageFeePerStudent - variableCost));
+    let breakEvenStudents = averageFeePerStudent > variableCost 
+        ? Math.ceil(totalFixedCosts / (averageFeePerStudent - variableCost))
+        : "N/A";
 
     // Corrected Monthly Profit Calculation
     let monthlyProfit = netProfit * batchesPerMonth;
@@ -54,17 +56,17 @@ function calculateMetrics() {
     let next5YearsProfit = monthlyProfit * Math.pow(projectedGrowthRate, 60);
 
     // Break-even Time Calculation (in months)
-    let breakEvenMonths = Math.ceil(totalFixedCosts / monthlyProfit);
+    let breakEvenMonths = monthlyProfit > 0 ? Math.ceil(totalFixedCosts / monthlyProfit) : "N/A";
 
     // Projected Total Revenue Growth (5 Years)
     let projectedTotalRevenue = totalRevenue * Math.pow(projectedGrowthRate, 60);
 
     // Key Analytics Calculations
-    let roi = ((netProfit / totalCost) * 100).toFixed(2); // Return on Investment
-    let costPerLead = (marketingSpend / students).toFixed(2); // Cost Per Lead
-    let costPerAcquisition = (totalCost / students).toFixed(2); // Cost Per Acquisition (CPA)
-    let retentionRate = ((students - discountedStudents) / students * 100).toFixed(2); // Retention Rate
-    let instructorEfficiency = ((netProfit / instructorSalary) * 100).toFixed(2); // Instructor Efficiency Score
+    let roi = totalCost > 0 ? ((netProfit / totalCost) * 100).toFixed(2) : "N/A"; // Return on Investment
+    let costPerLead = students > 0 ? (marketingSpend / students).toFixed(2) : "N/A"; // Cost Per Lead
+    let costPerAcquisition = students > 0 ? (totalCost / students).toFixed(2) : "N/A"; // Cost Per Acquisition (CPA)
+    let retentionRate = students > 0 ? ((students - discountedStudents) / students * 100).toFixed(2) : "N/A"; // Retention Rate
+    let instructorEfficiency = instructorSalary > 0 ? ((netProfit / instructorSalary) * 100).toFixed(2) : "N/A"; // Instructor Efficiency Score
 
     // Update UI with calculated values
     document.getElementById("totalRevenue").innerText = totalRevenue.toLocaleString();
