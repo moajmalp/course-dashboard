@@ -34,18 +34,13 @@ function calculateMetrics() {
     // Calculate net profit
     let netProfit = totalRevenue - totalCost;
 
-    // Corrected Break-even Calculation (Considering Per-Student Contribution)
+    // Corrected Break-even Calculation
     let averageFeePerStudent = (regularFee * regularStudents + discountedFee * discountedStudents) / students;
     let breakEvenStudents = averageFeePerStudent > variableCost ? 
         Math.ceil(totalFixedCosts / (averageFeePerStudent - variableCost)) : "N/A";
 
-    // Monthly Profit Calculation (Considering Batches)
+    // Monthly Profit Calculation
     let monthlyProfit = netProfit * batchesPerMonth;
-
-    // Batch Count Calculations
-    let batchPerDay = (batchesPerMonth / 30).toFixed(2);
-    let batchPerWeek = (batchesPerMonth / 4).toFixed(2);
-    let batchPerYear = batchesPerMonth * 12;
 
     // Future Predictions (10% Growth Rate)
     let growthRate = 1.10;  
@@ -58,11 +53,18 @@ function calculateMetrics() {
     let breakEvenMonths = monthlyProfit > 0 ? Math.ceil(totalFixedCosts / monthlyProfit) : "N/A";
 
     // Key Analytics Calculations
-    let roi = totalCost > 0 ? ((netProfit / totalCost) * 100).toFixed(2) : "N/A";  
-    let costPerLead = students > 0 ? (marketingSpend / students).toFixed(2) : "N/A";  
-    let costPerAcquisition = students > 0 ? (totalCost / students).toFixed(2) : "N/A";  
-    let retentionRate = students > 0 ? (((students - discountedStudents) / students) * 100).toFixed(2) : "N/A";  
-    let instructorEfficiency = instructorSalary > 0 ? ((netProfit / instructorSalary) * 100).toFixed(2) : "N/A";  
+    let roi = totalCost > 0 ? ((netProfit / totalFixedCosts) * 100).toFixed(2) : "0";  
+    let costPerLead = students > 0 ? (marketingSpend / students).toFixed(2) : "0";  
+    let costPerAcquisition = students > 0 ? (totalCost / students).toFixed(2) : "0";  
+    let retentionRate = students > 0 ? (((students - discountedStudents) / students) * 100).toFixed(2) : "0";  
+    let instructorEfficiency = instructorSalary > 0 ? ((netProfit / instructorSalary) * 100).toFixed(2) : "0";  
+
+    // Prevent NaN or Infinity values
+    roi = isFinite(roi) ? roi : "0";
+    costPerLead = isFinite(costPerLead) ? costPerLead : "0";
+    costPerAcquisition = isFinite(costPerAcquisition) ? costPerAcquisition : "0";
+    retentionRate = isFinite(retentionRate) ? retentionRate : "0";
+    instructorEfficiency = isFinite(instructorEfficiency) ? instructorEfficiency : "0";
 
     // Update UI with calculated values
     document.getElementById("totalRevenue").innerText = totalRevenue.toLocaleString();
@@ -70,10 +72,6 @@ function calculateMetrics() {
     document.getElementById("netProfit").innerText = netProfit.toLocaleString();
     document.getElementById("breakEven").innerText = breakEvenStudents;
     document.getElementById("monthlyProfit").innerText = monthlyProfit.toLocaleString();
-    document.getElementById("batchPerDay").innerText = batchPerDay;
-    document.getElementById("batchPerWeek").innerText = batchPerWeek;
-    document.getElementById("batchPerMonth").innerText = batchesPerMonth;
-    document.getElementById("batchPerYear").innerText = batchPerYear;
     document.getElementById("next6MonthsProfit").innerText = next6MonthsProfit;
     document.getElementById("nextYearProfit").innerText = nextYearProfit;
     document.getElementById("next5YearsProfit").innerText = next5YearsProfit;
