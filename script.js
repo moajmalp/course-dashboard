@@ -49,7 +49,22 @@ function calculateMetrics() {
     // Future Predictions (AI-Based Growth Model)
     let projectedGrowthRate = 1.10; // Assuming 10% growth per batch
     let nextMonthProfit = monthlyProfit * projectedGrowthRate;
+    let next6MonthsProfit = monthlyProfit * (Math.pow(projectedGrowthRate, 6));
     let nextYearProfit = monthlyProfit * Math.pow(projectedGrowthRate, 12);
+    let next5YearsProfit = monthlyProfit * Math.pow(projectedGrowthRate, 60);
+
+    // Break-even Time Calculation (in months)
+    let breakEvenMonths = Math.ceil(totalFixedCosts / monthlyProfit);
+
+    // Projected Total Revenue Growth (5 Years)
+    let projectedTotalRevenue = totalRevenue * Math.pow(projectedGrowthRate, 60);
+
+    // Key Analytics Calculations
+    let roi = ((netProfit / totalCost) * 100).toFixed(2); // Return on Investment
+    let costPerLead = (marketingSpend / students).toFixed(2); // Cost Per Lead
+    let costPerAcquisition = (totalCost / students).toFixed(2); // Cost Per Acquisition (CPA)
+    let retentionRate = ((students - discountedStudents) / students * 100).toFixed(2); // Retention Rate
+    let instructorEfficiency = ((netProfit / instructorSalary) * 100).toFixed(2); // Instructor Efficiency Score
 
     // Update UI with calculated values
     document.getElementById("totalRevenue").innerText = totalRevenue.toLocaleString();
@@ -62,19 +77,16 @@ function calculateMetrics() {
     document.getElementById("batchPerMonth").innerText = batchesPerMonth;
     document.getElementById("batchPerYear").innerText = batchPerYear;
     document.getElementById("nextMonthProfit").innerText = nextMonthProfit.toLocaleString();
+    document.getElementById("next6MonthsProfit").innerText = next6MonthsProfit.toLocaleString();
     document.getElementById("nextYearProfit").innerText = nextYearProfit.toLocaleString();
-
-    // Update analytics
-    updateAnalytics(netProfit, totalRevenue, breakEvenStudents, batchPerYear);
-}
-
-// Function to update key business analytics
-function updateAnalytics(profit, revenue, breakEven, yearlyBatches) {
-    let profitMargin = ((profit / revenue) * 100).toFixed(2);
-    let efficiencyScore = ((profit / breakEven) * 100).toFixed(2);
-    let growthPotential = ((yearlyBatches / 100) * 10).toFixed(2); // 10% of total batches
-
-    document.getElementById("profitMargin").innerText = profitMargin + "%";
-    document.getElementById("efficiencyScore").innerText = efficiencyScore + "%";
-    document.getElementById("growthPotential").innerText = growthPotential + "%";
+    document.getElementById("next5YearsProfit").innerText = next5YearsProfit.toLocaleString();
+    document.getElementById("breakEvenMonths").innerText = breakEvenMonths;
+    document.getElementById("projectedTotalRevenue").innerText = projectedTotalRevenue.toLocaleString();
+    
+    // Update Key Analytics
+    document.getElementById("roi").innerText = roi + "%";
+    document.getElementById("costPerLead").innerText = "₹" + costPerLead;
+    document.getElementById("costPerAcquisition").innerText = "₹" + costPerAcquisition;
+    document.getElementById("retentionRate").innerText = retentionRate + "%";
+    document.getElementById("instructorEfficiency").innerText = instructorEfficiency + "%";
 }
