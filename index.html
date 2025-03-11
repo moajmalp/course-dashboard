@@ -52,8 +52,28 @@
                         <input type="number" id="marketingSpend" class="form-control" value="20000">
                     </div>
                     <div class="form-group">
+                        <label>Course Duration (Weeks):</label>
+                        <input type="number" id="courseDuration" class="form-control" value="12">
+                    </div>
+                    <div class="form-group">
+                        <label>Marketing Conversion Rate (%):</label>
+                        <input type="number" id="conversionRate" class="form-control" value="10">
+                    </div>
+                    <div class="form-group">
+                        <label>Student Dropout Rate (%):</label>
+                        <input type="number" id="dropoutRate" class="form-control" value="5">
+                    </div>
+                    <div class="form-group">
+                        <label>Course Material Cost per Student (₹):</label>
+                        <input type="number" id="materialCost" class="form-control" value="300">
+                    </div>
+                    <div class="form-group">
                         <label>Total Courses Per Year:</label>
                         <input type="number" id="coursesPerYear" class="form-control" value="4">
+                    </div>
+                    <div class="form-group">
+                        <label>Batches Per Month:</label>
+                        <input type="number" id="batchesPerMonth" class="form-control" value="2">
                     </div>
                     <button class="btn btn-success w-100 mt-3" onclick="calculateMetrics()">Calculate 📊</button>
                 </div>
@@ -69,40 +89,26 @@
                             <span class="score excellent">₹<span id="totalRevenue">0</span></span>
                         </div>
                         <div class="metric-card">
+                            <p>Total Costs</p>
+                            <span class="score average">₹<span id="totalCost">0</span></span>
+                        </div>
+                        <div class="metric-card">
                             <p>Net Profit</p>
                             <span class="score excellent">₹<span id="netProfit">0</span></span>
                         </div>
                         <div class="metric-card">
-                            <p>Profit Margin</p>
-                            <span class="score excellent"><span id="profitMargin">0</span>%</span>
+                            <p>Break-even Students</p>
+                            <span class="score average"><span id="breakEven">0</span></span>
                         </div>
                         <div class="metric-card">
-                            <p>Return on Ad Spend (ROAS)</p>
-                            <span class="score"><span id="roas">0</span>x</span>
-                        </div>
-                        <div class="metric-card">
-                            <p>Break-even Revenue</p>
-                            <span class="score average">₹<span id="breakEvenRevenue">0</span></span>
-                        </div>
-                        <div class="metric-card">
-                            <p>Student Lifetime Value (LTV)</p>
-                            <span class="score excellent">₹<span id="studentLTV">0</span></span>
-                        </div>
-                        <div class="metric-card">
-                            <p>Total Annual Revenue</p>
-                            <span class="score excellent">₹<span id="annualRevenue">0</span></span>
+                            <p>Monthly Profit</p>
+                            <span class="score excellent">₹<span id="monthlyProfit">0</span></span>
                         </div>
                     </div>
-                </div>
 
-                <!-- AI Predictions -->
-                <div class="card mt-4">
+                    <!-- AI Predictions -->
                     <h3>🔮 Future Predictions</h3>
                     <div class="results-grid">
-                        <div class="metric-card">
-                            <p>Projected Revenue Growth (5 Years)</p>
-                            <span class="score excellent">₹<span id="projectedTotalRevenue">0</span></span>
-                        </div>
                         <div class="metric-card">
                             <p>Next 6 Months Profit</p>
                             <span class="score excellent">₹<span id="next6MonthsProfit">0</span></span>
@@ -112,8 +118,33 @@
                             <span class="score excellent">₹<span id="nextYearProfit">0</span></span>
                         </div>
                         <div class="metric-card">
-                            <p>Next 5 Years Profit</p>
-                            <span class="score excellent">₹<span id="next5YearsProfit">0</span></span>
+                            <p>Projected Revenue Growth (5 Years)</p>
+                            <span class="score excellent">₹<span id="projectedTotalRevenue">0</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Key Analytics -->
+                    <h3>📊 Key Analytics</h3>
+                    <div class="results-grid">
+                        <div class="metric-card">
+                            <p>ROI (Return on Investment)</p>
+                            <span class="score excellent"><span id="roi">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Cost Per Lead (CPL)</p>
+                            <span class="score">₹<span id="costPerLead">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Cost Per Acquisition (CPA)</p>
+                            <span class="score">₹<span id="costPerAcquisition">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Student Retention Rate</p>
+                            <span class="score average"><span id="retentionRate">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Instructor Efficiency</p>
+                            <span class="score excellent"><span id="instructorEfficiency">0</span>%</span>
                         </div>
                     </div>
                 </div>
