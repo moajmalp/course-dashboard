@@ -8,22 +8,31 @@ function calculateMetrics() {
     let instructorSalary = parseFloat(document.getElementById('instructorSalary').value);
     let variableCost = parseFloat(document.getElementById('variableCost').value);
     let marketingSpend = parseFloat(document.getElementById('marketingSpend').value);
+    let courseDuration = parseInt(document.getElementById('courseDuration').value);
+    let conversionRate = parseFloat(document.getElementById('conversionRate').value) / 100;
+    let dropoutRate = parseFloat(document.getElementById('dropoutRate').value) / 100;
+    let materialCost = parseFloat(document.getElementById('materialCost').value);
+    let coursesPerYear = parseInt(document.getElementById('coursesPerYear').value);
     let batchesPerMonth = parseInt(document.getElementById('batchesPerMonth').value);
 
     // Validate Inputs
     if (isNaN(students) || isNaN(regularFee) || isNaN(discountedFee) || isNaN(discountedStudents) || 
-        isNaN(fixedCosts) || isNaN(instructorSalary) || isNaN(variableCost) || isNaN(marketingSpend) || 
-        isNaN(batchesPerMonth) || students <= 0 || batchesPerMonth <= 0) {
+        isNaN(fixedCosts) || isNaN(instructorSalary) || isNaN(variableCost) || isNaN(marketingSpend) ||
+        isNaN(courseDuration) || isNaN(conversionRate) || isNaN(dropoutRate) || isNaN(materialCost) ||
+        isNaN(coursesPerYear) || isNaN(batchesPerMonth) || students <= 0 || batchesPerMonth <= 0) {
         alert("Please enter valid numbers for all fields.");
         return;
     }
 
+    // Calculate paying students after dropout
+    let actualStudents = students - (students * dropoutRate);
+
     // Calculate revenue from regular and discounted students
-    let regularStudents = students - discountedStudents;
+    let regularStudents = actualStudents - discountedStudents;
     let totalRevenue = (regularStudents * regularFee) + (discountedStudents * discountedFee);
 
-    // Calculate total variable costs
-    let totalVariableCost = students * variableCost;
+    // Calculate total variable costs including course materials
+    let totalVariableCost = (actualStudents * variableCost) + (actualStudents * materialCost);
 
     // Calculate total fixed costs (including instructor salary and marketing spend)
     let totalFixedCosts = fixedCosts + instructorSalary + marketingSpend;
@@ -35,12 +44,15 @@ function calculateMetrics() {
     let netProfit = totalRevenue - totalCost;
 
     // Corrected Break-even Calculation
-    let averageFeePerStudent = (regularFee * regularStudents + discountedFee * discountedStudents) / students;
+    let averageFeePerStudent = (regularFee * regularStudents + discountedFee * discountedStudents) / actualStudents;
     let breakEvenStudents = averageFeePerStudent > variableCost ? 
         Math.ceil(totalFixedCosts / (averageFeePerStudent - variableCost)) : "N/A";
 
     // Monthly Profit Calculation
     let monthlyProfit = netProfit * batchesPerMonth;
+
+    // Annual Revenue Estimate
+    let annualRevenue = totalRevenue * coursesPerYear;
 
     // Future Predictions (10% Growth Rate)
     let growthRate = 1.10;  
@@ -53,10 +65,10 @@ function calculateMetrics() {
     let breakEvenMonths = monthlyProfit > 0 ? Math.ceil(totalFixedCosts / monthlyProfit) : "N/A";
 
     // Key Analytics Calculations
-    let roi = totalCost > 0 ? ((netProfit / totalFixedCosts) * 100).toFixed(2) : "0";  
-    let costPerLead = students > 0 ? (marketingSpend / students).toFixed(2) : "0";  
-    let costPerAcquisition = students > 0 ? (totalCost / students).toFixed(2) : "0";  
-    let retentionRate = students > 0 ? (((students - discountedStudents) / students) * 100).toFixed(2) : "0";  
+    let roi = totalFixedCosts > 0 ? ((netProfit / totalFixedCosts) * 100).toFixed(2) : "0";  
+    let costPerLead = students > 0 ? (marketingSpend / (students * conversionRate)).toFixed(2) : "0";  
+    let costPerAcquisition = actualStudents > 0 ? (totalCost / actualStudents).toFixed(2) : "0";  
+    let retentionRate = actualStudents > 0 ? ((actualStudents / students) * 100).toFixed(2) : "0";  
     let instructorEfficiency = instructorSalary > 0 ? ((netProfit / instructorSalary) * 100).toFixed(2) : "0";  
 
     // Prevent NaN or Infinity values
@@ -77,6 +89,7 @@ function calculateMetrics() {
     document.getElementById("next5YearsProfit").innerText = next5YearsProfit;
     document.getElementById("breakEvenMonths").innerText = breakEvenMonths;
     document.getElementById("projectedTotalRevenue").innerText = projectedTotalRevenue;
+    document.getElementById("annualRevenue").innerText = annualRevenue.toLocaleString();
 
     // Update Key Analytics
     document.getElementById("roi").innerText = roi + "%";
