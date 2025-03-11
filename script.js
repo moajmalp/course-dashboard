@@ -32,7 +32,7 @@ function calculateMetrics() {
     let batchPerWeek = batchesPerMonth / 4;
     let batchPerYear = batchesPerMonth * 12;
 
-    // Future Predictions (Simple AI-Based)
+    // Future Predictions (AI-Based Growth Model)
     let projectedGrowthRate = 1.10; // Assuming 10% growth per batch
     let nextMonthProfit = netProfit * projectedGrowthRate;
     let nextYearProfit = netProfit * Math.pow(projectedGrowthRate, 12);
@@ -67,7 +67,7 @@ function updateCharts(revenue, cost, profit, nextMonth, nextYear) {
     window.myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Revenue', 'Costs', 'Net Profit', 'Predicted Next Month Profit', 'Predicted Next Year Profit'],
+            labels: ['Total Revenue', 'Total Costs', 'Net Profit', 'Predicted Next Month Profit', 'Predicted Next Year Profit'],
             datasets: [{
                 label: 'Financial Metrics (₹)',
                 data: [revenue, cost, profit, nextMonth, nextYear],
@@ -84,7 +84,7 @@ function updateCharts(revenue, cost, profit, nextMonth, nextYear) {
     });
 }
 
-// Function to update four key analytics
+// Function to update key business analytics
 function updateAnalytics(profit, revenue, breakEven, yearlyBatches) {
     let profitMargin = ((profit / revenue) * 100).toFixed(2);
     let efficiencyScore = ((profit / breakEven) * 100).toFixed(2);
