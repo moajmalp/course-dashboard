@@ -93,7 +93,7 @@ input:focus {
 /* --- Buttons --- */
 button {
     width: 100%;
-    padding: 12px;
+    padding: 0px !important;
     background-color: var(--primary-color);
     color: white;
     border: none;
