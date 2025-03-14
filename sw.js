@@ -7,6 +7,8 @@ const STATIC_ASSETS = [
     "/popup.js`"
 ];
 
+const CACHE_VERSION = 'v1.2.3';
+
 // Install Service Worker & Cache Files
 self.addEventListener("install", (event) => {
     // Skip waiting to activate service worker immediately
@@ -40,11 +42,11 @@ self.addEventListener("activate", (event) => {
         Promise.all([
             self.clients.claim(),
             // Remove old caches
-            caches.keys().then(keys => {
+            caches.keys().then(cacheNames => {
                 return Promise.all(
-                    keys.map(key => {
-                        if (key !== CACHE_NAME) {
-                            return caches.delete(key);
+                    cacheNames.map(cacheName => {
+                        if (cacheName !== CACHE_VERSION) {
+                            return caches.delete(cacheName);
                         }
                     })
                 );

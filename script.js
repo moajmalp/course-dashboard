@@ -22,44 +22,61 @@ document.querySelectorAll("input").forEach((input) => {
     }
 });
 
-// ✅ Check Online/Offline Status and Show Custom Popup
-window.addEventListener('load', () => {
-    if (!navigator.onLine) {
-        popup.show({
-            title: 'Connection Status',
-            icon: '🔌',
-            message: 'You are in offline mode. Some features may not be available.',
-            confirmText: 'OK',
-            type: 'info',
-            showCancel: false,
-            theme: 'dark'
-        });
+// Global variable to track if popup is already shown
+let isPopupVisible = false;
+
+// Show offline message
+function showOfflineMessage() {
+    // Check if popup is already visible
+    if (isPopupVisible) return;
+    
+    const existingModal = document.querySelector('.connection-status-modal');
+    if (existingModal) {
+        existingModal.remove();
     }
-});
 
-// ✅ Listen for Online/Offline Events
-window.addEventListener('online', () => {
-    popup.show({
-        title: 'Connection Status',
-        icon: '✅',
-        message: 'You are back online!',
-        confirmText: 'Great',
-        type: 'success',
-        showCancel: false,
-        autoClose: 3000
-    });
-});
+    const modal = document.createElement('div');
+    modal.className = 'connection-status-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h2>Connection Status</h2>
+            <p>You are in offline mode. Some features may not be available.</p>
+            <button onclick="hideOfflineMessage()">OK</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    isPopupVisible = true;
+}
 
-window.addEventListener('offline', () => {
-    popup.show({
-        title: 'Connection Status',
-        icon: '📡',
-        message: 'You are offline. Some features may not be available.',
-        confirmText: 'OK',
-        type: 'warning',
-        showCancel: false
-    });
-});
+// Hide offline message
+function hideOfflineMessage() {
+    const modal = document.querySelector('.connection-status-modal');
+    if (modal) {
+        modal.remove();
+        isPopupVisible = false;
+    }
+}
+
+// Update online status
+function updateOnlineStatus() {
+    const status = navigator.onLine;
+    if (!status) {
+        showOfflineMessage();
+    } else {
+        hideOfflineMessage();
+    }
+}
+
+// Remove any existing event listeners (if any)
+window.removeEventListener('online', updateOnlineStatus);
+window.removeEventListener('offline', updateOnlineStatus);
+
+// Add event listeners
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+
+// Check status on page load (only once)
+document.addEventListener('DOMContentLoaded', updateOnlineStatus, { once: true });
 
 // Add this validation function
 function validateMarketingSplit(input) {
@@ -1020,4 +1037,138 @@ window.decrementValue = decrementValue;
 window.resetForm = resetForm;
 window.saveTemplate = saveTemplate;
 window.loadTemplate = loadTemplate;
+
+// Add scroll effect to header
+document.addEventListener('DOMContentLoaded', function() {
+    const header = document.querySelector('.dashboard-header');
+    
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 10) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+});
+
+function showCalculateConfirmation() {
+    popup.show({
+        title: 'Calculate Metrics',
+        icon: '📊',
+        message: 'Are you sure you want to calculate all metrics?',
+        confirmText: 'Calculate',
+        showCancel: true,
+        type: 'default',
+        onConfirm: () => {
+            // Call the original calculate function
+            calculateMetrics();
+        }
+    });
+}
+
+// Update the popup styles to include a new calculate-specific style
+document.head.insertAdjacentHTML('beforeend', `
+    <style>
+        /* Custom styles for calculate popup */
+        .popup-btn.confirm {
+            background: linear-gradient(135deg, #0070f3 0%, #00a6ff 100%);
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 112, 243, 0.2);
+        }
+        
+        .popup-btn.confirm:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0, 112, 243, 0.3);
+        }
+        
+        .popup-btn.cancel {
+            background: #64748b;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+        
+        .popup-btn.cancel:hover {
+            background: #4b5563;
+        }
+        
+        .popup-content {
+            min-width: 400px;
+            text-align: center;
+        }
+        
+        .popup-header {
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .popup-header h3 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: #2d3748;
+        }
+        
+        .popup-body p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            margin: 0 0 20px 0;
+        }
+        
+        .popup-footer {
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        @media (max-width: 480px) {
+            .popup-content {
+                min-width: 300px;
+                margin: 0px;
+            }
+            
+            .popup-header h3 {
+                font-size: 1.25rem;
+            }
+            
+            .popup-body p {
+                font-size: 1rem;
+            }
+            
+            .popup-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+`);
+
+// Save data locally
+function saveData(key, data) {
+    try {
+        localStorage.setItem(key, JSON.stringify(data));
+    } catch (e) {
+        console.error('Error saving data:', e);
+    }
+}
+
+// Load data from local storage
+function loadData(key) {
+    try {
+        const data = localStorage.getItem(key);
+        return data ? JSON.parse(data) : null;
+    } catch (e) {
+        console.error('Error loading data:', e);
+        return null;
+    }
+}
+
+// Example usage for your course dashboard
+function saveCourseData(courseData) {
+    saveData('courseData', courseData);
+}
+
+function loadCourseData() {
+    return loadData('courseData');
+}
 

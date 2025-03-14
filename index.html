@@ -18,6 +18,9 @@
     </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 </head>
 
 <body>
@@ -32,14 +35,23 @@
             <div class="col-md-12">
                 <div class="card input-dashboard">
                     <div class="dashboard-header">
-                        <h2>📌 Course Details</h2>
-                        <div class="quick-actions">
-                            <button class="action-btn primary" onclick="calculateMetrics()">
-                                <span>📊 Calculate</span>
-                            </button>
-                            <button class="action-btn secondary" onclick="resetForm()">
-                                <span>🔄 Reset</span>
-                            </button>
+                        <div class="header-wrapper">
+                            <div class="header-content">
+                                <div class="title-section">
+                                    <h2>📌 Course Details</h2>
+                                    <span class="subtitle">Configure your course parameters</span>
+                                </div>
+                                <div class="quick-actions">
+                                    <button class="action-btn primary" onclick="showCalculateConfirmation()">
+                                        <span class="btn-icon">📊</span>
+                                        <span class="btn-text">Calculate</span>
+                                    </button>
+                                    <button class="action-btn secondary" onclick="resetForm()">
+                                        <span class="btn-icon">🔄</span>
+                                        <span class="btn-text">Reset</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -52,12 +64,12 @@
                                 <div class="form-group">
                                     <label for="courseName">Course Name</label>
                                     <input type="text" id="courseName" class="form-control"
-                                        placeholder="Enter course name">
+                                        placeholder="Enter course name" value="Web Design & Development">
                                 </div>
                                 <div class="form-group">
                                     <label for="courseMode">Mode</label>
                                     <select id="courseMode" class="form-control">
-                                        <option value="online">Online</option>
+                                        <option selected value="online">Online</option>
                                         <option value="offline">Offline</option>
                                         <option value="hybrid">Hybrid</option>
                                     </select>
