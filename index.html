@@ -139,9 +139,11 @@
                                 <div class="form-group">
                                     <label for="dropoutRateDiscounted">Discounted Student Dropout (%)</label>
                                     <div class="number-input">
-                                        <button onclick="decrementValue('dropoutRateDiscounted')" class="minus">-</button>
+                                        <button onclick="decrementValue('dropoutRateDiscounted')"
+                                            class="minus">-</button>
                                         <input type="number" id="dropoutRateDiscounted" min="0" max="100" value="5">
-                                        <button onclick="incrementValue('dropoutRateDiscounted')" class="plus">+</button>
+                                        <button onclick="incrementValue('dropoutRateDiscounted')"
+                                            class="plus">+</button>
                                     </div>
                                 </div>
                             </div>
@@ -196,178 +198,194 @@
 
                         <!-- Add this inside your form or input section -->
                         <div class="analytics-inputs">
-                            <h3>Analytics Inputs</h3>
-                            
-                            <!-- Marketing & Leads -->
-                            <div class="input-group">
-                                <h4>Marketing & Leads</h4>
-                                <div class="form-group">
-                                    <label for="totalLeads">Total Leads</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('totalLeads')" class="minus">-</button>
-                                        <input type="number" id="totalLeads" min="0" value="5">
-                                        <button onclick="incrementValue('totalLeads')" class="plus">+</button>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="convertedLeads">Converted Leads</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('convertedLeads')" class="minus">-</button>
-                                        <input type="number" id="convertedLeads" min="0" value="5">
-                                        <button onclick="incrementValue('convertedLeads')" class="plus">+</button>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="websiteVisitors">Website Visitors</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('websiteVisitors')" class="minus">-</button>
-                                        <input type="number" id="websiteVisitors" min="0" value="5">
-                                        <button onclick="incrementValue('websiteVisitors')" class="plus">+</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="form-section">
+                                <h3>Analytics Inputs</h3>
 
-                            <!-- Student Performance -->
-                            <div class="input-group">
-                                <h4>Student Performance</h4>
-                                <div class="form-group">
-                                    <label for="satisfactionRating">Student Satisfaction (0-10)</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('satisfactionRating')" class="minus">-</button>
-                                        <input type="number" id="satisfactionRating" min="0" max="10" step="0.1" value="5">
-                                        <button onclick="incrementValue('satisfactionRating')" class="plus">+</button>
+                                <!-- Marketing & Leads -->
+                                <div class="input-row">
+                                    <h4>Marketing & Leads</h4>
+                                    <div class="form-group">
+                                        <label for="totalLeads">Total Leads</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('totalLeads')" class="minus">-</button>
+                                            <input type="number" id="totalLeads" min="0" value="5">
+                                            <button onclick="incrementValue('totalLeads')" class="plus">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="convertedLeads">Converted Leads</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('convertedLeads')" class="minus">-</button>
+                                            <input type="number" id="convertedLeads" min="0" value="5">
+                                            <button onclick="incrementValue('convertedLeads')" class="plus">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="websiteVisitors">Website Visitors</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('websiteVisitors')" class="minus">-</button>
+                                            <input type="number" id="websiteVisitors" min="0" value="5">
+                                            <button onclick="incrementValue('websiteVisitors')" class="plus">+</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="completedStudents">Completed Students</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('completedStudents')" class="minus">-</button>
-                                        <input type="number" id="completedStudents" min="0" value="5">
-                                        <button onclick="incrementValue('completedStudents')" class="plus">+</button>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="totalAttendance">Total Classes Attended</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('totalAttendance')" class="minus">-</button>
-                                        <input type="number" id="totalAttendance" min="0" value="5">
-                                        <button onclick="incrementValue('totalAttendance')" class="plus">+</button>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- Engagement Metrics -->
-                            <div class="input-group">
-                                <h4>Engagement & Social</h4>
-                                <div class="form-group">
-                                    <label for="socialMediaReach">Social Media Reach</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('socialMediaReach')" class="minus">-</button>
-                                        <input type="number" id="socialMediaReach" min="0" value="5">
-                                        <button onclick="incrementValue('socialMediaReach')" class="plus">+</button>
+                                <!-- Student Performance -->
+                                <div class="input-row">
+                                    <h4>Student Performance</h4>
+                                    <div class="form-group">
+                                        <label for="satisfactionRating">Student Satisfaction (0-10)</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('satisfactionRating')"
+                                                class="minus">-</button>
+                                            <input type="number" id="satisfactionRating" min="0" max="10" step="0.1"
+                                                value="5">
+                                            <button onclick="incrementValue('satisfactionRating')"
+                                                class="plus">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="completedStudents">Completed Students</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('completedStudents')"
+                                                class="minus">-</button>
+                                            <input type="number" id="completedStudents" min="0" value="5">
+                                            <button onclick="incrementValue('completedStudents')"
+                                                class="plus">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="totalAttendance">Total Classes Attended</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('totalAttendance')" class="minus">-</button>
+                                            <input type="number" id="totalAttendance" min="0" value="5">
+                                            <button onclick="incrementValue('totalAttendance')" class="plus">+</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="emailsSent">Emails Sent</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('emailsSent')" class="minus">-</button>
-                                        <input type="number" id="emailsSent" min="0" value="5">
-                                        <button onclick="incrementValue('emailsSent')" class="plus">+</button>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="emailsOpened">Emails Opened</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('emailsOpened')" class="minus">-</button>
-                                        <input type="number" id="emailsOpened" min="0" value="5">
-                                        <button onclick="incrementValue('emailsOpened')" class="plus">+</button>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- Assessment & Learning -->
-                            <div class="input-group">
-                                <h4>Assessment & Learning</h4>
-                                <div class="form-group">
-                                    <label for="assessmentsPassed">Assessments Passed</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('assessmentsPassed')" class="minus">-</button>
-                                        <input type="number" id="assessmentsPassed" min="0" value="5">
-                                        <button onclick="incrementValue('assessmentsPassed')" class="plus">+</button>
+                                <!-- Engagement Metrics -->
+                                <div class="input-row">
+                                    <h4>Engagement & Social</h4>
+                                    <div class="form-group">
+                                        <label for="socialMediaReach">Social Media Reach</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('socialMediaReach')"
+                                                class="minus">-</button>
+                                            <input type="number" id="socialMediaReach" min="0" value="5">
+                                            <button onclick="incrementValue('socialMediaReach')" class="plus">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="emailsSent">Emails Sent</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('emailsSent')" class="minus">-</button>
+                                            <input type="number" id="emailsSent" min="0" value="5">
+                                            <button onclick="incrementValue('emailsSent')" class="plus">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="emailsOpened">Emails Opened</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('emailsOpened')" class="minus">-</button>
+                                            <input type="number" id="emailsOpened" min="0" value="5">
+                                            <button onclick="incrementValue('emailsOpened')" class="plus">+</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="totalAssessments">Total Assessments</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('totalAssessments')" class="minus">-</button>
-                                        <input type="number" id="totalAssessments" min="0" value="5">
-                                        <button onclick="incrementValue('totalAssessments')" class="plus">+</button>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="assignmentsCompleted">Assignments Completed</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('assignmentsCompleted')" class="minus">-</button>
-                                        <input type="number" id="assignmentsCompleted" min="0" value="5">
-                                        <button onclick="incrementValue('assignmentsCompleted')" class="plus">+</button>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="totalAssignments">Total Assignments</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('totalAssignments')" class="minus">-</button>
-                                        <input type="number" id="totalAssignments" min="0" value="5">
-                                        <button onclick="incrementValue('totalAssignments')" class="plus">+</button>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- Platform & Support -->
-                            <div class="input-group">
-                                <h4>Platform & Support</h4>
-                                <div class="form-group">
-                                    <label for="avgResponseHours">Avg. Response Time (hrs)</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('avgResponseHours')" class="minus">-</button>
-                                        <input type="number" id="avgResponseHours" min="0" step="0.1" value="5">
-                                        <button onclick="incrementValue('avgResponseHours')" class="plus">+</button>
+                                <!-- Assessment & Learning -->
+                                <div class="input-row">
+                                    <h4>Assessment & Learning</h4>
+                                    <div class="form-group">
+                                        <label for="assessmentsPassed">Assessments Passed</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('assessmentsPassed')"
+                                                class="minus">-</button>
+                                            <input type="number" id="assessmentsPassed" min="0" value="5">
+                                            <button onclick="incrementValue('assessmentsPassed')"
+                                                class="plus">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="totalAssessments">Total Assessments</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('totalAssessments')"
+                                                class="minus">-</button>
+                                            <input type="number" id="totalAssessments" min="0" value="5">
+                                            <button onclick="incrementValue('totalAssessments')" class="plus">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="assignmentsCompleted">Assignments Completed</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('assignmentsCompleted')"
+                                                class="minus">-</button>
+                                            <input type="number" id="assignmentsCompleted" min="0" value="5">
+                                            <button onclick="incrementValue('assignmentsCompleted')"
+                                                class="plus">+</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="contentViews">Content Views</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('contentViews')" class="minus">-</button>
-                                        <input type="number" id="contentViews" min="0" value="5">
-                                        <button onclick="incrementValue('contentViews')" class="plus">+</button>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="contentInteractions">Content Interactions</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('contentInteractions')" class="minus">-</button>
-                                        <input type="number" id="contentInteractions" min="0" value="5">
-                                        <button onclick="incrementValue('contentInteractions')" class="plus">+</button>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- Career & Placement -->
-                            <div class="input-group">
-                                <h4>Career & Placement</h4>
-                                <div class="form-group">
-                                    <label for="placedStudents">Placed Students</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('placedStudents')" class="minus">-</button>
-                                        <input type="number" id="placedStudents" min="0" value="5">
-                                        <button onclick="incrementValue('placedStudents')" class="plus">+</button>
+                                <!-- Platform & Support -->
+                                <div class="input-row">
+                                    <h4>Platform & Support</h4>
+                                    <div class="form-group">
+                                        <label for="avgResponseHours">Avg. Response Time (hrs)</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('avgResponseHours')"
+                                                class="minus">-</button>
+                                            <input type="number" id="avgResponseHours" min="0" step="0.1" value="5">
+                                            <button onclick="incrementValue('avgResponseHours')" class="plus">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contentViews">Content Views</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('contentViews')" class="minus">-</button>
+                                            <input type="number" id="contentViews" min="0" value="5">
+                                            <button onclick="incrementValue('contentViews')" class="plus">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contentInteractions">Content Interactions</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('contentInteractions')"
+                                                class="minus">-</button>
+                                            <input type="number" id="contentInteractions" min="0" value="5">
+                                            <button onclick="incrementValue('contentInteractions')"
+                                                class="plus">+</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="mobileAccess">Mobile Learning Users</label>
-                                    <div class="number-input">
-                                        <button onclick="decrementValue('mobileAccess')" class="minus">-</button>
-                                        <input type="number" id="mobileAccess" min="0" value="5">
-                                        <button onclick="incrementValue('mobileAccess')" class="plus">+</button>
+
+                                <!-- Career & Placement -->
+                                <div class="input-row">
+                                    <h4>Career & Placement</h4>
+                                    <div class="form-group">
+                                        <label for="placedStudents">Placed Students</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('placedStudents')" class="minus">-</button>
+                                            <input type="number" id="placedStudents" min="0" value="5">
+                                            <button onclick="incrementValue('placedStudents')" class="plus">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="internshipStudents">Internship Students</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('internshipStudents')" class="minus">-</button>
+                                            <input type="number" id="internshipStudents" min="0" value="5">
+                                            <button onclick="incrementValue('internshipStudents')" class="plus">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mobileAccess">Mobile Learning Users</label>
+                                        <div class="number-input">
+                                            <button onclick="decrementValue('mobileAccess')" class="minus">-</button>
+                                            <input type="number" id="mobileAccess" min="0" value="5">
+                                            <button onclick="incrementValue('mobileAccess')" class="plus">+</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
