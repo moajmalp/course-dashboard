@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CODO Course Dashboard - Advanced</title>
+    <link rel="icon" href="https://codoacademy.com/uploads/system/e7c3fb5390c74909db1bb3559b24007a.png"
+        type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://codoacademy.com/uploads/system/e7c3fb5390c74909db1bb3559b24007a.png">
+    <!-- Add this script before other scripts -->
+    <script>
+        // Disable Live Server's WebSocket
+        window.LiveServerOptions = {
+            injectWebSocket: false
+        };
+    </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container mt-4">
         <header>
@@ -16,72 +29,364 @@
 
         <div class="row mt-4">
             <!-- Input Section -->
-            <div class="col-md-4">
-                <div class="card">
-                    <h2>📌 Course Details</h2>
-                    <div class="form-group">
-                        <label>Total Students:</label>
-                        <input type="number" id="students" class="form-control" value="50">
+            <div class="col-md-12">
+                <div class="card input-dashboard">
+                    <div class="dashboard-header">
+                        <h2>📌 Course Details</h2>
+                        <div class="quick-actions">
+                            <button class="action-btn primary" onclick="calculateMetrics()">
+                                <span>📊 Calculate</span>
+                            </button>
+                            <button class="action-btn secondary" onclick="resetForm()">
+                                <span>🔄 Reset</span>
+                            </button>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Regular Fee per Student (₹):</label>
-                        <input type="number" id="regularFee" class="form-control" value="4000">
+
+                    <!-- Smart Input Sections -->
+                    <div class="smart-form">
+                        <!-- Course Basics -->
+                        <div class="form-section">
+                            <h3>📚 Course Setup</h3>
+                            <div class="input-row">
+                                <div class="form-group">
+                                    <label for="courseName">Course Name</label>
+                                    <input type="text" id="courseName" class="form-control"
+                                        placeholder="Enter course name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="courseMode">Mode</label>
+                                    <select id="courseMode" class="form-control">
+                                        <option value="online">Online</option>
+                                        <option value="offline">Offline</option>
+                                        <option value="hybrid">Hybrid</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Student & Batch Info -->
+                        <div class="form-section">
+                            <h3>👥 Instructors, Students & Batches</h3>
+                            <div class="input-row">
+                                <div class="form-group">
+                                    <label for="students">Total Students</label>
+                                    <div class="number-input">
+                                        <button type="button" onclick="decrementValue('students')">-</button>
+                                        <input type="number" id="students" value="50" min="1">
+                                        <button type="button" onclick="incrementValue('students')">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="discountedStudents">Discounted Students</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('discountedStudents')" class="minus">-</button>
+                                        <input type="number" id="discountedStudents" min="0" value="25">
+                                        <button onclick="incrementValue('discountedStudents')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="batchesPerMonth">Batches/Month</label>
+                                    <div class="number-input">
+                                        <button type="button" onclick="decrementValue('batchesPerMonth')">-</button>
+                                        <input type="number" id="batchesPerMonth" value="1" min="1">
+                                        <button type="button" onclick="incrementValue('batchesPerMonth')">+</button>
+                                    </div>
+                                </div>
+                                <!-- Instructor Count -->
+                                <div class="form-group">
+                                    <label for="instructorCount">Number of Instructors</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('instructorCount')" class="minus">-</button>
+                                        <input type="number" id="instructorCount" min="1" value="1">
+                                        <button onclick="incrementValue('instructorCount')" class="plus">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Student & Batch Info -->
+                        <div class="form-section">
+                            <h3>📈 Marketing & Rates</h3>
+                            <div class="input-row">
+                                <!-- Marketing Split -->
+                                <div class="form-group">
+                                    <label for="marketingSplitRegular">Marketing Split - Regular (%)</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('marketingSplitRegular')"
+                                            class="minus">-</button>
+                                        <input type="number" id="marketingSplitRegular" min="0" max="100" value="70"
+                                            onchange="validateMarketingSplit(this)">
+                                        <button onclick="incrementValue('marketingSplitRegular')"
+                                            class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="conversionRate">Marketing Conversion (%)</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('conversionRate')" class="minus">-</button>
+                                        <input type="number" id="conversionRate" min="0" max="100" value="10">
+                                        <button onclick="incrementValue('conversionRate')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dropoutRateRegular">Regular Student Dropout (%)</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('dropoutRateRegular')" class="minus">-</button>
+                                        <input type="number" id="dropoutRateRegular" min="0" max="100" value="5">
+                                        <button onclick="incrementValue('dropoutRateRegular')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dropoutRateDiscounted">Discounted Student Dropout (%)</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('dropoutRateDiscounted')" class="minus">-</button>
+                                        <input type="number" id="dropoutRateDiscounted" min="0" max="100" value="5">
+                                        <button onclick="incrementValue('dropoutRateDiscounted')" class="plus">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fee Structure -->
+                        <div class="form-section">
+                            <h3>💰 Fee Structure</h3>
+                            <div class="input-row">
+                                <div class="form-group">
+                                    <label for="regularFee">Regular Fee (₹)</label>
+                                    <input type="number" id="regularFee" class="form-control money-input" value="4000">
+                                </div>
+                                <div class="form-group">
+                                    <label for="discountedFee">Discounted Fee (₹)</label>
+                                    <input type="number" id="discountedFee" class="form-control money-input"
+                                        value="2000">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Costs -->
+                        <div class="form-section">
+                            <h3>💸 Costs</h3>
+                            <div class="input-row">
+                                <div class="form-group">
+                                    <label for="fixedCosts">Fixed Costs (₹)</label>
+                                    <input type="number" id="fixedCosts" class="form-control money-input" value="10000">
+                                </div>
+                                <div class="form-group">
+                                    <label for="variableCost">Cost per Student (₹)</label>
+                                    <input type="number" id="variableCost" class="form-control money-input" value="500">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="instructorSalary">Instructor Salary (₹)</label>
+                                <input type="number" id="instructorSalary" min="0" value="20000">
+                            </div>
+                            <div class="form-group">
+                                <label for="marketingSpend">Marketing Spend (₹)</label>
+                                <input type="number" id="marketingSpend" min="0" value="20000">
+                            </div>
+                            <div class="form-group">
+                                <label for="materialCost">Material Cost per Student (₹)</label>
+                                <input type="number" id="materialCost" min="0" value="500">
+                            </div>
+                            <div class="form-group">
+                                <label for="coursesPerYear">Courses Per Year</label>
+                                <input type="number" id="coursesPerYear" min="1" value="12">
+                            </div>
+                        </div>
+
+                        <!-- Add this inside your form or input section -->
+                        <div class="analytics-inputs">
+                            <h3>Analytics Inputs</h3>
+                            
+                            <!-- Marketing & Leads -->
+                            <div class="input-group">
+                                <h4>Marketing & Leads</h4>
+                                <div class="form-group">
+                                    <label for="totalLeads">Total Leads</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('totalLeads')" class="minus">-</button>
+                                        <input type="number" id="totalLeads" min="0" value="5">
+                                        <button onclick="incrementValue('totalLeads')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="convertedLeads">Converted Leads</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('convertedLeads')" class="minus">-</button>
+                                        <input type="number" id="convertedLeads" min="0" value="5">
+                                        <button onclick="incrementValue('convertedLeads')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="websiteVisitors">Website Visitors</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('websiteVisitors')" class="minus">-</button>
+                                        <input type="number" id="websiteVisitors" min="0" value="5">
+                                        <button onclick="incrementValue('websiteVisitors')" class="plus">+</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Student Performance -->
+                            <div class="input-group">
+                                <h4>Student Performance</h4>
+                                <div class="form-group">
+                                    <label for="satisfactionRating">Student Satisfaction (0-10)</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('satisfactionRating')" class="minus">-</button>
+                                        <input type="number" id="satisfactionRating" min="0" max="10" step="0.1" value="5">
+                                        <button onclick="incrementValue('satisfactionRating')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="completedStudents">Completed Students</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('completedStudents')" class="minus">-</button>
+                                        <input type="number" id="completedStudents" min="0" value="5">
+                                        <button onclick="incrementValue('completedStudents')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="totalAttendance">Total Classes Attended</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('totalAttendance')" class="minus">-</button>
+                                        <input type="number" id="totalAttendance" min="0" value="5">
+                                        <button onclick="incrementValue('totalAttendance')" class="plus">+</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Engagement Metrics -->
+                            <div class="input-group">
+                                <h4>Engagement & Social</h4>
+                                <div class="form-group">
+                                    <label for="socialMediaReach">Social Media Reach</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('socialMediaReach')" class="minus">-</button>
+                                        <input type="number" id="socialMediaReach" min="0" value="5">
+                                        <button onclick="incrementValue('socialMediaReach')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="emailsSent">Emails Sent</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('emailsSent')" class="minus">-</button>
+                                        <input type="number" id="emailsSent" min="0" value="5">
+                                        <button onclick="incrementValue('emailsSent')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="emailsOpened">Emails Opened</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('emailsOpened')" class="minus">-</button>
+                                        <input type="number" id="emailsOpened" min="0" value="5">
+                                        <button onclick="incrementValue('emailsOpened')" class="plus">+</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Assessment & Learning -->
+                            <div class="input-group">
+                                <h4>Assessment & Learning</h4>
+                                <div class="form-group">
+                                    <label for="assessmentsPassed">Assessments Passed</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('assessmentsPassed')" class="minus">-</button>
+                                        <input type="number" id="assessmentsPassed" min="0" value="5">
+                                        <button onclick="incrementValue('assessmentsPassed')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="totalAssessments">Total Assessments</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('totalAssessments')" class="minus">-</button>
+                                        <input type="number" id="totalAssessments" min="0" value="5">
+                                        <button onclick="incrementValue('totalAssessments')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="assignmentsCompleted">Assignments Completed</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('assignmentsCompleted')" class="minus">-</button>
+                                        <input type="number" id="assignmentsCompleted" min="0" value="5">
+                                        <button onclick="incrementValue('assignmentsCompleted')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="totalAssignments">Total Assignments</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('totalAssignments')" class="minus">-</button>
+                                        <input type="number" id="totalAssignments" min="0" value="5">
+                                        <button onclick="incrementValue('totalAssignments')" class="plus">+</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Platform & Support -->
+                            <div class="input-group">
+                                <h4>Platform & Support</h4>
+                                <div class="form-group">
+                                    <label for="avgResponseHours">Avg. Response Time (hrs)</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('avgResponseHours')" class="minus">-</button>
+                                        <input type="number" id="avgResponseHours" min="0" step="0.1" value="5">
+                                        <button onclick="incrementValue('avgResponseHours')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contentViews">Content Views</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('contentViews')" class="minus">-</button>
+                                        <input type="number" id="contentViews" min="0" value="5">
+                                        <button onclick="incrementValue('contentViews')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contentInteractions">Content Interactions</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('contentInteractions')" class="minus">-</button>
+                                        <input type="number" id="contentInteractions" min="0" value="5">
+                                        <button onclick="incrementValue('contentInteractions')" class="plus">+</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Career & Placement -->
+                            <div class="input-group">
+                                <h4>Career & Placement</h4>
+                                <div class="form-group">
+                                    <label for="placedStudents">Placed Students</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('placedStudents')" class="minus">-</button>
+                                        <input type="number" id="placedStudents" min="0" value="5">
+                                        <button onclick="incrementValue('placedStudents')" class="plus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mobileAccess">Mobile Learning Users</label>
+                                    <div class="number-input">
+                                        <button onclick="decrementValue('mobileAccess')" class="minus">-</button>
+                                        <input type="number" id="mobileAccess" min="0" value="5">
+                                        <button onclick="incrementValue('mobileAccess')" class="plus">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Discounted Fee per Student (₹):</label>
-                        <input type="number" id="discountedFee" class="form-control" value="2000">
-                    </div>
-                    <div class="form-group">
-                        <label>Number of Discounted Students:</label>
-                        <input type="number" id="discountedStudents" class="form-control" value="25">
-                    </div>
-                    <div class="form-group">
-                        <label>Fixed Costs (₹):</label>
-                        <input type="number" id="fixedCosts" class="form-control" value="50000">
-                    </div>
-                    <div class="form-group">
-                        <label>Instructor Salary (₹):</label>
-                        <input type="number" id="instructorSalary" class="form-control" value="30000">
-                    </div>
-                    <div class="form-group">
-                        <label>Variable Cost per Student (₹):</label>
-                        <input type="number" id="variableCost" class="form-control" value="500">
-                    </div>
-                    <div class="form-group">
-                        <label>Marketing Spend (₹):</label>
-                        <input type="number" id="marketingSpend" class="form-control" value="20000">
-                    </div>
-                    <div class="form-group">
-                        <label>Course Duration (Weeks):</label>
-                        <input type="number" id="courseDuration" class="form-control" value="12">
-                    </div>
-                    <div class="form-group">
-                        <label>Marketing Conversion Rate (%):</label>
-                        <input type="number" id="conversionRate" class="form-control" value="10">
-                    </div>
-                    <div class="form-group">
-                        <label>Student Dropout Rate (%):</label>
-                        <input type="number" id="dropoutRate" class="form-control" value="5">
-                    </div>
-                    <div class="form-group">
-                        <label>Course Material Cost per Student (₹):</label>
-                        <input type="number" id="materialCost" class="form-control" value="300">
-                    </div>
-                    <div class="form-group">
-                        <label>Total Courses Per Year:</label>
-                        <input type="number" id="coursesPerYear" class="form-control" value="4">
-                    </div>
-                    <div class="form-group">
-                        <label>Batches Per Month:</label>
-                        <input type="number" id="batchesPerMonth" class="form-control" value="2">
-                    </div>
-                    <button class="btn btn-success w-100 mt-3" onclick="calculateMetrics()">Calculate 📊</button>
                 </div>
             </div>
 
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <button class="tab-button active" onclick="switchTab('financial')">📈 Financial Summary</button>
+                <button class="tab-button" onclick="switchTab('analytics')">📊 Key Analytics</button>
+                <button class="tab-button" onclick="switchTab('predictions')">🔮 Future Predictions</button>
+            </div>
+
             <!-- Results Section -->
-            <div class="col-md-8">
-                <div class="card">
+            <div class="results-container">
+                <!-- Financial Summary Tab -->
+                <div id="financial" class="tab-content active">
                     <h2>📈 Financial Summary</h2>
                     <div class="results-grid">
                         <div class="metric-card">
@@ -97,34 +402,123 @@
                             <span class="score excellent">₹<span id="netProfit">0</span></span>
                         </div>
                         <div class="metric-card">
-                            <p>Break-even Students</p>
-                            <span class="score average"><span id="breakEven">0</span></span>
+                            <p>Marketing ROI</p>
+                            <span class="score excellent"><span id="marketingROI">0</span>%</span>
                         </div>
                         <div class="metric-card">
                             <p>Monthly Profit</p>
                             <span class="score excellent">₹<span id="monthlyProfit">0</span></span>
                         </div>
+                        <div class="metric-card">
+                            <p>Gross Margin</p>
+                            <span class="score excellent"><span id="grossMargin">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Net Margin</p>
+                            <span class="score excellent"><span id="netMargin">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Cost Per Student</p>
+                            <span class="score average">
+                                Regular: ₹<span id="costPerStudentRegular">0</span><br>
+                                Discounted: ₹<span id="costPerStudentDiscounted">0</span>
+                            </span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Break-even Students</p>
+                            <span class="score average">
+                                Regular: <span id="breakEvenRegular">0</span><br>
+                                Discounted: <span id="breakEvenDiscounted">0</span>
+                            </span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Break-even Revenue</p>
+                            <span class="score average">
+                                Regular: ₹<span id="breakEvenRevenueRegular">0</span><br>
+                                Discounted: ₹<span id="breakEvenRevenueDiscounted">0</span>
+                            </span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Revenue Per Student</p>
+                            <span class="score excellent">
+                                Regular: ₹<span id="revenuePerStudentRegular">0</span><br>
+                                Discounted: ₹<span id="revenuePerStudentDiscounted">0</span>
+                            </span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Student Retention Rate</p>
+                            <span class="score excellent">
+                                Regular: <span id="retentionRateRegular">0</span>%<br>
+                                Discounted: <span id="retentionRateDiscounted">0</span>%
+                            </span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Lifetime Student Value</p>
+                            <span class="score excellent">
+                                Regular: ₹<span id="lifetimeStudentValueRegular">0</span><br>
+                                Discounted: ₹<span id="lifetimeStudentValueDiscounted">0</span>
+                            </span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Profit Per Student</p>
+                            <span class="score excellent">
+                                Regular: ₹<span id="profitPerStudentRegular">0</span><br>
+                                Discounted: ₹<span id="profitPerStudentDiscounted">0</span>
+                            </span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Marketing Cost/Student</p>
+                            <span class="score average">
+                                Regular: ₹<span id="marketingCostRegular">0</span><br>
+                                Discounted: ₹<span id="marketingCostDiscounted">0</span>
+                            </span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Profit Growth Rate</p>
+                            <span class="score excellent"><span id="profitGrowthRate">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Revenue Growth Rate</p>
+                            <span class="score excellent"><span id="revenueGrowthRate">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Monthly Revenue</p>
+                            <span class="score excellent">₹<span id="monthlyRevenue">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Monthly Expenses</p>
+                            <span class="score average">₹<span id="monthlyExpenses">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Student Capacity Utilization</p>
+                            <span class="score excellent"><span id="capacityUtilization">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Operating Margin</p>
+                            <span class="score excellent"><span id="operatingMargin">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Cash Flow Efficiency</p>
+                            <span class="score excellent"><span id="cashFlowEfficiency">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Resource Utilization Rate</p>
+                            <span class="score excellent"><span id="resourceUtilization">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Revenue Per Employee</p>
+                            <span class="score excellent">₹<span id="revenuePerEmployee">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Customer Acquisition Cost</p>
+                            <span class="score average">₹<span id="customerAcquisitionCost">0</span></span>
+                        </div>
                     </div>
+                </div>
 
-                    <!-- AI Predictions -->
-                    <h3>🔮 Future Predictions</h3>
-                    <div class="results-grid">
-                        <div class="metric-card">
-                            <p>Next 6 Months Profit</p>
-                            <span class="score excellent">₹<span id="next6MonthsProfit">0</span></span>
-                        </div>
-                        <div class="metric-card">
-                            <p>Next Year Profit</p>
-                            <span class="score excellent">₹<span id="nextYearProfit">0</span></span>
-                        </div>
-                        <div class="metric-card">
-                            <p>Projected Revenue Growth (5 Years)</p>
-                            <span class="score excellent">₹<span id="projectedTotalRevenue">0</span></span>
-                        </div>
-                    </div>
-
-                    <!-- Key Analytics -->
-                    <h3>📊 Key Analytics</h3>
+                <!-- Key Analytics Tab -->
+                <div id="analytics" class="tab-content">
+                    <h2>📊 Key Analytics</h2>
                     <div class="results-grid">
                         <div class="metric-card">
                             <p>ROI (Return on Investment)</p>
@@ -139,12 +533,204 @@
                             <span class="score">₹<span id="costPerAcquisition">0</span></span>
                         </div>
                         <div class="metric-card">
-                            <p>Student Retention Rate</p>
-                            <span class="score average"><span id="retentionRate">0</span>%</span>
-                        </div>
-                        <div class="metric-card">
                             <p>Instructor Efficiency</p>
                             <span class="score excellent"><span id="instructorEfficiency">0</span>%</span>
+                        </div>
+
+                        <!-- New Analytics Metrics -->
+                        <div class="metric-card">
+                            <p>Lead Conversion Rate</p>
+                            <span class="score excellent"><span id="leadConversionRate">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Student Satisfaction Score</p>
+                            <span class="score excellent"><span id="satisfactionScore">0</span>/10</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Course Completion Rate</p>
+                            <span class="score excellent"><span id="completionRate">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Average Class Size</p>
+                            <span class="score"><span id="avgClassSize">0</span> students</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Student Attendance Rate</p>
+                            <span class="score excellent"><span id="attendanceRate">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Website Conversion Rate</p>
+                            <span class="score excellent"><span id="websiteConversion">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Social Media Engagement</p>
+                            <span class="score excellent"><span id="socialEngagement">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Email Campaign Performance</p>
+                            <span class="score excellent"><span id="emailPerformance">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Student Referral Rate</p>
+                            <span class="score excellent"><span id="referralRate">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Resource Utilization</p>
+                            <span class="score excellent"><span id="resourceUtil">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Average Learning Progress</p>
+                            <span class="score excellent"><span id="learningProgress">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Student-Teacher Ratio</p>
+                            <span class="score"><span id="studentTeacherRatio">0</span>:1</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Assessment Success Rate</p>
+                            <span class="score excellent"><span id="assessmentSuccess">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Platform Uptime</p>
+                            <span class="score excellent"><span id="platformUptime">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Support Response Time</p>
+                            <span class="score"><span id="responseTime">0</span> hrs</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Content Engagement Rate</p>
+                            <span class="score excellent"><span id="contentEngagement">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Mobile Learning Usage</p>
+                            <span class="score excellent"><span id="mobileUsage">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Assignment Completion Rate</p>
+                            <span class="score excellent"><span id="assignmentCompletion">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Student Growth Rate</p>
+                            <span class="score excellent"><span id="studentGrowth">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Knowledge Retention Score</p>
+                            <span class="score excellent"><span id="retentionScore">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Career Placement Rate</p>
+                            <span class="score excellent"><span id="placementRate">0</span>%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Future Predi`ctions Tab -->
+                <div id="predictions" class="tab-content">
+                    <h2>🔮 Future Predictions</h2>
+                    <div class="results-grid">
+                        <div class="metric-card">
+                            <p>Next 6 Months Profit</p>
+                            <span class="score excellent">₹<span id="next6MonthsProfit">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Next Year Profit</p>
+                            <span class="score excellent">₹<span id="nextYearProfit">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Projected Revenue Growth (5 Years)</p>
+                            <span class="score excellent">₹<span id="projectedTotalRevenue">0</span></span>
+                        </div>
+
+                        <!-- New Prediction Metrics -->
+                        <div class="metric-card">
+                            <p>Estimated Student Growth (1 Year)</p>
+                            <span class="score excellent"><span id="studentGrowth1Year">0</span> students</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Estimated Student Growth (5 Years)</p>
+                            <span class="score excellent"><span id="studentGrowth5Years">0</span> students</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Projected Monthly Revenue (1 Year)</p>
+                            <span class="score excellent">₹<span id="projectedMonthlyRevenue1Year">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Projected Operating Costs (1 Year)</p>
+                            <span class="score average">₹<span id="projectedCosts1Year">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Expected ROI (3 Years)</p>
+                            <span class="score excellent"><span id="expectedROI3Years">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Projected Market Share (2 Years)</p>
+                            <span class="score excellent"><span id="projectedMarketShare">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Expected Staff Requirements (1 Year)</p>
+                            <span class="score average"><span id="staffRequirements1Year">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Projected Infrastructure Costs (2 Years)</p>
+                            <span class="score average">₹<span id="infrastructureCosts2Years">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Expected Marketing Budget (Next Year)</p>
+                            <span class="score average">₹<span id="marketingBudgetNextYear">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Projected Course Expansion (2 Years)</p>
+                            <span class="score excellent"><span id="courseExpansion2Years">0</span> courses</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Expected Student Retention (Next Year)</p>
+                            <span class="score excellent"><span id="retentionNextYear">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Projected Online Growth (2 Years)</p>
+                            <span class="score excellent"><span id="onlineGrowth2Years">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Expected Revenue Per Course (1 Year)</p>
+                            <span class="score excellent">₹<span id="revenuePerCourse1Year">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Projected Break-even Point (Future)</p>
+                            <span class="score average"><span id="futureBreakEvenMonths">0</span> months</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Expected Profit Margin (2 Years)</p>
+                            <span class="score excellent"><span id="profitMargin2Years">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Projected Cash Flow (1 Year)</p>
+                            <span class="score excellent">₹<span id="cashFlow1Year">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Expected Technology Investment (2 Years)</p>
+                            <span class="score average">₹<span id="techInvestment2Years">0</span></span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Projected Student Satisfaction (1 Year)</p>
+                            <span class="score excellent"><span id="studentSatisfaction1Year">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Expected Competition Growth (2 Years)</p>
+                            <span class="score average"><span id="competitionGrowth2Years">0</span>%</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Projected International Expansion (3 Years)</p>
+                            <span class="score excellent"><span id="internationalExpansion3Years">0</span>
+                                countries</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Expected Faculty Growth (2 Years)</p>
+                            <span class="score average"><span id="facultyGrowth2Years">0</span> members</span>
+                        </div>
+                        <div class="metric-card">
+                            <p>Projected Brand Value Growth (3 Years)</p>
+                            <span class="score excellent"><span id="brandValueGrowth3Years">0</span>%</span>
                         </div>
                     </div>
                 </div>
@@ -152,10 +738,11 @@
         </div>
 
         <footer>
-            <p>© 2024 CODO AI Innovations. All Rights Reserved.</p>
+            <p>© 2025 CODO AI Innovations. All Rights Reserved.</p>
         </footer>
     </div>
-
+    <script src="popup.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
